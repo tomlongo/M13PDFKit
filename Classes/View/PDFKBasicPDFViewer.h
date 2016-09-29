@@ -24,8 +24,8 @@
 -(void)didTapMiddleOfPDFViewer:(id)view;
 -(void)didTapLeftOfPDFViewer:(id)view;
 -(void)didTapRightOfPDFViewer:(id)view;
--(void)pdfViewerWIllHideToolbars:(id)view;
--(void)pdfViewerWIllShowToolbars:(id)view;
+-(void)pdfViewerWillHideToolbars:(id)view;
+-(void)pdfViewerWillShowToolbars:(id)view;
 @end
 
 typedef void (^PDFKBasicPDFViewerPageChangeBlock)(NSUInteger page);
