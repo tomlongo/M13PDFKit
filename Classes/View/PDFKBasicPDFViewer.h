@@ -19,6 +19,12 @@
 @class PDFKBasicPDFViewerSinglePageCollectionView;
 @class PDFKBasicPDFViewerThumbsCollectionView;
 
+@protocol PDFKBasicPDFViewerDelegate <NSObject>
+@optional
+-(void)pdfViewerWIllHideToolbars:(id)view;
+-(void)pdfViewerWIllShowToolbars:(id)view;
+@end
+
 typedef void (^PDFKBasicPDFViewerPageChangeBlock)(NSUInteger page);
 
 @interface PDFKBasicPDFViewer : UIViewController
@@ -49,6 +55,8 @@ typedef void (^PDFKBasicPDFViewerPageChangeBlock)(NSUInteger page);
 - (void)displayPage:(NSUInteger)page;
 
 /**@name Properties*/
+
+@property (nonatomic, weak) id<PDFKBasicPDFViewerDelegate> delegate;
 
 @property (nonatomic, strong) PDFKBasicPDFViewerPageChangeBlock pageChangeBlock;
 

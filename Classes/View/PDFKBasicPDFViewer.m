@@ -526,6 +526,11 @@
     if (_showingSinglePage ) {
         if (_navigationToolbar.hidden) {
             //Show toolbars
+            
+            if([self.delegate respondsToSelector:@selector(pdfViewerWIllShowToolbars:)]) {
+                [self.delegate pdfViewerWIllShowToolbars:self];
+            }
+            
             _navigationToolbar.hidden = NO;
             _pageScrubber.hidden = NO;
             [UIView animateWithDuration:0.3 animations:^{
@@ -538,6 +543,11 @@
             }];
         } else {
             //Hide toolbars
+            
+            if([self.delegate respondsToSelector:@selector(pdfViewerWIllHideToolbars:)]) {
+                [self.delegate pdfViewerWIllHideToolbars:self];
+            }
+            
             [UIView animateWithDuration:0.3 animations:^{
                 if (_navigationToolbar.alpha == 1.0) {
                     _navigationToolbar.alpha = 0.0;
