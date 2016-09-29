@@ -42,7 +42,9 @@
 @end
 
 
-@implementation PDFKBasicPDFViewer
+@implementation PDFKBasicPDFViewer {
+    
+}
 
 #pragma mark - Initalization and Loading
 
@@ -114,6 +116,9 @@
     _navigationToolbar.delegate = self;
     //Set this to no, cant have autoresizing masks and layout constraints at the same time.
     _navigationToolbar.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    _navigationToolbar.hidden = (self.disableToolbar == YES);
+    
     //Add to the view
     [self.view addSubview:_navigationToolbar];
     //Create the constraints.
@@ -492,13 +497,26 @@
             if (CGRectContainsPoint(CGRectMake(0, 0, self.view.frame.size.width * .33, self.view.frame.size.height), touch)) {
                 [self previousPage];
                 
+                if([self.delegate respondsToSelector:@selector(didTapLeftOfPDFViewer:)]) {
+                    [self.delegate didTapLeftOfPDFViewer:self];
+                }
+                
             } else if (CGRectContainsPoint(CGRectMake(self.view.frame.size.width * .33, 0, self.view.frame.size.width * .33, self.view.frame.size.height), touch)) {
                 //Center
                 [self toggleToolbars];
                 
+                if([self.delegate respondsToSelector:@selector(didTapMiddleOfPDFViewer:)]) {
+                    [self.delegate didTapMiddleOfPDFViewer:self];
+                }
+                
             } else {
                 //Right
                 [self nextPage];
+                
+                if([self.delegate respondsToSelector:@selector(didTapRightOfPDFViewer:)]) {
+                    [self.delegate didTapRightOfPDFViewer:self];
+                }
+                
             }
         }
     }
@@ -524,7 +542,7 @@
 - (void)toggleToolbars
 {
     if (_showingSinglePage ) {
-        if (_navigationToolbar.hidden) {
+        if (_navigationToolbar.hidden && !self.disableToolbar) {
             //Show toolbars
             
             if([self.delegate respondsToSelector:@selector(pdfViewerWIllShowToolbars:)]) {
@@ -541,7 +559,7 @@
                     _pageScrubber.alpha = 1.0;
                 }
             }];
-        } else {
+        } else if(!self.disableToolbar) {
             //Hide toolbars
             
             if([self.delegate respondsToSelector:@selector(pdfViewerWIllHideToolbars:)]) {
