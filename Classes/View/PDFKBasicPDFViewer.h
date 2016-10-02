@@ -21,6 +21,7 @@
 
 @protocol PDFKBasicPDFViewerDelegate <NSObject>
 @optional
+-(void)didTapPDFViewer:(id)view;
 -(void)didTapMiddleOfPDFViewer:(id)view;
 -(void)didTapLeftOfPDFViewer:(id)view;
 -(void)didTapRightOfPDFViewer:(id)view;
@@ -66,6 +67,13 @@ typedef void (^PDFKBasicPDFViewerPageChangeBlock)(NSUInteger page);
 @property (nonatomic, strong, readonly) PDFKDocument *document;
 
 /**@name Features*/
+/**
+ Wether or not to allow tap-based navigation
+ eg. Tapping right side goes to next page
+     Note this will hide toolbars by tapping anywhere
+     not just the middle
+ */
+@property (nonatomic, assign) BOOL disableTapNavigation;
 /**
  Wether or not to enable the toolbar
  */

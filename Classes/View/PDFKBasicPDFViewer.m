@@ -493,9 +493,18 @@
             //Check what side the touch is on
             CGPoint touch = [gestureRecognizer locationInView:self.view];
             
+            if([self.delegate respondsToSelector:@selector(didTapPDFViewer:)]) {
+                [self.delegate didTapPDFViewer:self];
+            }
+            
             //Left side
             if (CGRectContainsPoint(CGRectMake(0, 0, self.view.frame.size.width * .33, self.view.frame.size.height), touch)) {
-                [self previousPage];
+                
+                if(self.disableTapNavigation) {
+                    [self toggleToolbars];
+                } else {
+                    [self previousPage];
+                }
                 
                 if([self.delegate respondsToSelector:@selector(didTapLeftOfPDFViewer:)]) {
                     [self.delegate didTapLeftOfPDFViewer:self];
@@ -510,8 +519,13 @@
                 }
                 
             } else {
+                
                 //Right
-                [self nextPage];
+                if(self.disableTapNavigation) {
+                    [self toggleToolbars];
+                } else {
+                    [self nextPage];
+                }
                 
                 if([self.delegate respondsToSelector:@selector(didTapRightOfPDFViewer:)]) {
                     [self.delegate didTapRightOfPDFViewer:self];
